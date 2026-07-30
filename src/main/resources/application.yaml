@@ -1,0 +1,34 @@
+server:
+  port: 8080
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  # Optional: Docker Compose lifecycle behavior (defaults to 'stop-and-save')
+  # Options: stop-and-save, start-only, shutdown-only
+  docker:
+    compose:
+      lifecycle-management: start-and-stop
+  application:
+    name: spring-jwt-test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/springai
+    username: springai
+    password: springai
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  jwt:
+    secret: "thisjhsfakhbksrajsnbfkfhbsawfhbalwkbkahbwfkjhb387qyueuhasbthisjhsfakhbksrajsnbfkfhbsawfhbalwkbkahbwfkjhb387qyueuhasb"
+    expiration-ms: 900000
+    refresh-expiration-ms: 604800000 # 7 days
