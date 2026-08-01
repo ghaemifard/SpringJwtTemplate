@@ -1,6 +1,7 @@
 package com.ghaemi.boot.springjwttest.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -51,8 +52,17 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+//        final String username = extractUsername(token);
+//        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        try {
+            final String username = extractUsername(token);
+            return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        } catch (ExpiredJwtException ex) {
+            return false;
+        } catch (Exception ex) {
+            // malformed, invalid signature, etc.
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {
