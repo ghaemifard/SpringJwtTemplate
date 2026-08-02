@@ -33,11 +33,16 @@ public class MyRedisUserDetailsService implements UserDetailsService {
         String cKey = USER_CACHE_PREFIX + username;
         String cValue = template.opsForValue().get(cKey);
         if(cValue != null) {
-            return objectMapper.readValue(cValue, User.class);
+            try{
+                return objectMapper.readValue(cValue, User.class);
+            }
+            catch(Exception e) {
+                IO.println("JSON parse error");
+            }
         }
         User user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User not found for: "+username));
 
-        template.opsForValue().set(cKey, objectMapper.writeValueAsString(user));
+        template.opsForValue().set(cKey, objectMapper.writeValueAsString(user),USER_CACHE_TTL);
 
         return user;
 

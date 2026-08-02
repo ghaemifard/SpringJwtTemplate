@@ -24,6 +24,7 @@ public class RefreshTokenRedisService {
 
     private final UserRepository userRepository;
     private final StringRedisTemplate stringRedisTemplate;
+    //generate tokes with UUID, then create key, and then save it on redis (PREFIX+UUID,username)
     public String createRefreshToken(String username) {
             String token = UUID.randomUUID().toString();
             String key = REFRESH_TOKEN_PREFIX+token;
@@ -36,10 +37,12 @@ public class RefreshTokenRedisService {
         return stringRedisTemplate.opsForValue().get(REFRESH_TOKEN_PREFIX+token);
     }
 
+    // delete the entry from redis
     public void deleteByToken(String token) {
         stringRedisTemplate.delete(REFRESH_TOKEN_PREFIX+token);
     }
 
+    // get the username (value) from the token(key) on redis, and retrieve the User from repo
     public User findUserByToken(String token) {
         String username = findUsernameByToken(token);
         if(username==null){
@@ -48,6 +51,7 @@ public class RefreshTokenRedisService {
         return userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("User not found"));
     }
 
+    // see if the usernamen (value) is available on redis based on the given token
     public void verifyRefreshToken(String token) {
         String username = findUsernameByToken(token);
         if(username==null){
