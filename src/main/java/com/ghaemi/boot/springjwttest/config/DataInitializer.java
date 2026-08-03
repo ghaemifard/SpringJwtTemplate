@@ -18,12 +18,12 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(userRepository.count() == 0) {
-            User user = User.builder().username("user")
-                    .password(passwordEncoder.encode("password"))
+            User user = User.builder().username("user001")
+                    .password(passwordEncoder.encode("passworD00!"))
                     .enabled(true)
                     .role(Role.ROLE_USER).build();
 
-            User adUser = User.builder().username("admin").password(passwordEncoder.encode("admin"))
+            User adUser = User.builder().username("admin001").password(passwordEncoder.encode("adminadmiN001!"))
                     .role(Role.ROLE_ADMIN).enabled(true).build();
             userRepository.saveAll(List.of(user,adUser));
             IO.println("Test users created: user/password and admin/admin");
