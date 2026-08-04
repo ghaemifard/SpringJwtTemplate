@@ -38,6 +38,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // Logging
+    // Optional but recommended for JSON logs
+    implementation 'net.logstash.logback:logstash-logback-encoder:9.0'
     // Development
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'

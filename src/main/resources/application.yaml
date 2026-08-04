@@ -32,3 +32,12 @@ app:
     secret: "thisjhsfakhbksrajsnbfkfhbsawfhbalwkbkahbwfkjhb387qyueuhasbthisjhsfakhbksrajsnbfkfhbsawfhbalwkbkahbwfkjhb387qyueuhasb"
     expiration-ms: 900000
     refresh-expiration-ms: 604800000 # 7 days
+
+logging:
+  level:
+    root: INFO
+    com.ghaemi.boot.springjwttest: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
