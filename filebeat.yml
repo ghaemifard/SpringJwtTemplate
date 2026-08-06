@@ -1,0 +1,29 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/application.json
+      - /logs/application.*.json
+    json.keys_under_root: true
+    json.add_error_key: true
+    json.overwrite_keys: true
+    fields:
+      project: spring-jwt-test
+      env: local
+    fields_under_root: true
+
+processors:
+  - add_host_metadata: ~
+  - add_docker_metadata: ~
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "spring-jwt-logs-%{+yyyy.MM.dd}"
+
+setup.template.name: "spring-jwt-logs"
+setup.template.pattern: "spring-jwt-logs-*"
+setup.ilm.enabled: false
+
+logging.level: info
+logging.to_files: false
+logging.to_stderr: true
